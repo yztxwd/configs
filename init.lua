@@ -122,5 +122,8 @@ vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
 vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
 
--- run Neotree when open
-vim.cmd("Neotree")
+-- Neotree
+require("neo-tree").setup({
+    close_if_last_window = true
+})
+vim.cmd("Neotree show")
