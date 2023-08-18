@@ -25,6 +25,7 @@ require("lazy").setup({
   "rcarriga/cmp-dap",
   'hrsh7th/cmp-vsnip',
   'hrsh7th/vim-vsnip',
+  'honza/vim-snippets',
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -53,6 +54,9 @@ require("lazy").setup({
 -- colorscheme
 vim.cmd("colorscheme monokai")
 
+-- normal setup
+vim.opt.number = true
+
 -- debugger
 require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 -- automatically trigger dap ui
@@ -61,11 +65,12 @@ dapui.setup()
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
 end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close()
-end
+-- dap.listeners.before.event_terminated["dapui_config"] = function()
+--   dapui.close()
+-- end
+-- dap.listeners.before.event_exited["dapui_config"] = function()
+--   dapui.close()
+-- end
 -- autocomplete in REPL
 local cmp = require('cmp')
 require("cmp").setup({
@@ -76,10 +81,10 @@ require("cmp").setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
+--    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+--    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--    ['<C-Space>'] = cmp.mapping.complete(),
+--    ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
 })
@@ -109,10 +114,19 @@ function _G.check_back_space()
 end
 local keyset = vim.keymap.set
 local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-keyset("i", "jk", "<Esc>", {noremap = true})
+-- kaymappings for COC
+ keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+ keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+ keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+-- Use <c-j> to trigger snippets
+ keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+-- Use <c-space> to trigger completion
+ keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
+
+keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
+keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
+keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
+keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
 
 -- keymappings for dap debug
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
@@ -127,3 +141,6 @@ require("neo-tree").setup({
     close_if_last_window = true
 })
 vim.cmd("Neotree show")
+
+-- use jk as Esc
+vim.keymap.set("i", "jk", "<Esc>", {noremap = true})
