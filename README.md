@@ -1,4 +1,5 @@
-Configurations for various terminal tools
+# Configurations for various terminal tools
+
 
 - tmux
 - nvim
