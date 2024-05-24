@@ -122,6 +122,8 @@ local opts = {silent = true, noremap = true, expr = true, replace_keycodes = fal
  keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
 -- Use <c-space> to trigger completion
  keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
+-- Exit terminal mode
+keyset("t", "jk", "<C-\\><C-N>", {silent = true})
 
 keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
 keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
