@@ -146,3 +146,6 @@ vim.cmd("Neotree show")
 
 -- use jk as Esc
 vim.keymap.set("i", "jk", "<Esc>", {noremap = true})
+
+-- enable system clipboard
+vim.api.nvim_set_option("clipboard", "unnamedplus")
