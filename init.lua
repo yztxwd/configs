@@ -72,6 +72,16 @@ require("lazy").setup({
   },
 })
 
+-- tab switch
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+map('n', '<A-h>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<A-l>', '<Cmd>BufferNext<CR>', opts)
+map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
+map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
+map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
+map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+
 -- colorscheme
 vim.cmd("colorscheme monokai")
 
